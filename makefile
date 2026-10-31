@@ -1,10 +1,14 @@
 INCLUDE_STACK= src/stack_for_chess.c
 INCLUDE_INPUT=src/input_function.c
+INCLUDE_DECIEDER=src/decieder.c
+INCLUDE_INIT=src/init_funtions.c
+INCLUDE_MOVE=src/moves.c
+INCLUDE_MOD=src/mod.c
 INCLUDE= -I "includes"
 final:
 	@echo "Compiling  the Files..."
 # 	@gcc chess.c stack_for_chess.c input_function.c -o chess.exe
-	@gcc chess.c $(INCLUDE_STACK) $(INCLUDE_INPUT) $(INCLUDE) -o chess.exe
+	@gcc chess.c $(INCLUDE_STACK) $(INCLUDE_INPUT) $(INCLUDE_DECIEDER) $(INCLUDE_INIT) $(INCLUDE_MOVE) $(INCLUDE_MOD) $(INCLUDE) -o chess.exe
 run:
 	@echo "Running The Executable "
 	@./chess.exe 
