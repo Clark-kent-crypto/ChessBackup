@@ -6,33 +6,38 @@
 #include"stack_initialiezer.h"
 #include"input_function.h"
 #include"node_declaration.h"
-#define X 0//To better understand when i am assigning in X position of the array 
-#define Y 1// .......................................... Y postion of the array 
+#include<rand_macros.h>
+#include<init_functions.h>
+#include<moves.h>
+// #define X 0//To better understand when i am assigning in X position of the array 
+// #define Y 1// .......................................... Y postion of the array 
 
-#define STOP 0
-#define RUN 1
+// #define STOP 0
+// #define RUN 1
 
-// Its all the macro needed for X positioning 
-#define A 0
-#define B 1
-#define C 2
-#define D 3
-#define E 4
-#define F 5
-#define G 6
-#define H 7
-//misclenious macro s like color,movement etc...
+// // Its all the macro needed for X positioning 
+// #define A 0
+// #define B 1
+// #define C 2
+// #define D 3
+// #define E 4
+// #define F 5
+// #define G 6
+// #define H 7
+// //misclenious macro s like color,movement etc...
 
-#define FORWARD 'F'
-#define BACKWARD 'B'
-#define LEFT 'L'
-#define RIGHT 'R'
-#define ALL 'A'
-#define WIDTH 8
-#define LENGTH 8
+// #define FORWARD 'F'
+// #define BACKWARD 'B'
+// #define LEFT 'L'
+// #define RIGHT 'R'
+// #define ALL 'A'
+// #define WIDTH 8
+// #define LENGTH 8
 // chess_board=((*chess_board)[8])malloc(8*sizeof(char));
 char (*chess_board)[8]=NULL;
-piece** chess_piece_arr=NULL;//array that is being taken from input_function.h 
+
+
+piece** chess_piece_arr=NULL;
 
 stack* new_stack=NULL;//stack to use 
 
@@ -112,86 +117,86 @@ stack* new_stack=NULL;//stack to use
     
 // }
 void remove_piece(piece* given_piece);
-int position_decieder(char type,char color){//its a function to deciede which piece gets which position it is right now being only worked at the initializeer
-    int position;
-    char Color;
-    if(type==PAWN){
-        if(color==BLACK){
-            position=1;
-        }
-        else{
-            position=6;
-        }
-    }else{
-        if(color==BLACK){
-            position=0;
-        }
-        else{
-            position=7;
-        }
+// int position_decieder(char type,char color){//its a function to deciede which piece gets which position it is right now being only worked at the initializeer
+//     int position;
+//     char Color;
+//     if(type==PAWN){
+//         if(color==BLACK){
+//             position=1;
+//         }
+//         else{
+//             position=6;
+//         }
+//     }else{
+//         if(color==BLACK){
+//             position=0;
+//         }
+//         else{
+//             position=7;
+//         }
         
-    }
-    return position;
-}
-char name_decieder(char type,char color){
-    char b_name[6]={'p','b','n','r','k','q'};//name designated for black pieces
-    char w_name[6]={'P','B','N','R','K','Q'};//name designated for white pieces
-    char types[6]={PAWN,BISHOP,KNIGHT,ROOK,KING,QUEEN};//it stores the all the macros for the pieces in one array 
-    char return_value;
-    int size=6;
-    for(int i=0;i<size;i++){
-        if(type==types[i]){
-            if(color==BLACK){
-                return_value=b_name[i];
-                break;
+//     }
+//     return position;
+// }
+// char name_decieder(char type,char color){
+//     char b_name[6]={'p','b','n','r','k','q'};//name designated for black pieces
+//     char w_name[6]={'P','B','N','R','K','Q'};//name designated for white pieces
+//     char types[6]={PAWN,BISHOP,KNIGHT,ROOK,KING,QUEEN};//it stores the all the macros for the pieces in one array 
+//     char return_value;
+//     int size=6;
+//     for(int i=0;i<size;i++){
+//         if(type==types[i]){
+//             if(color==BLACK){
+//                 return_value=b_name[i];
+//                 break;
                 
-            }
-            return_value=type;
-            break;
-        }
-    }
-    return return_value;
-}
-piece* piece_init(char color,int x_position,char type){//it initianlizes each and every pieces 
-    if(color!=WHITE && color!=BLACK){
-        printf("Invalid Color Choice !!");
-        return NULL;
-    }
-    piece* new_piece=(piece*)malloc(sizeof(piece));
-    if(new_piece==NULL){
-        printf("Memory Allocation failed!!");
-        return NULL;
-    }
-    push(new_stack,new_piece);
-    new_piece->moving_direction=FORWARD;
+//             }
+//             return_value=type;
+//             break;
+//         }
+//     }
+//     return return_value;
+// }
+// piece* piece_init(char color,int x_position,char type){//it initianlizes each and every pieces 
+//     if(color!=WHITE && color!=BLACK){
+//         printf("Invalid Color Choice !!");
+//         return NULL;
+//     }
+//     piece* new_piece=(piece*)malloc(sizeof(piece));
+//     if(new_piece==NULL){
+//         printf("Memory Allocation failed!!");
+//         return NULL;
+//     }
+//     push(new_stack,new_piece);
+//     new_piece->moving_direction=FORWARD;
     
-    new_piece->color=color;
-    new_piece->current_position[Y]=position_decieder(type,color);
-    new_piece->current_position[X]=x_position;
-    new_piece->piece_type=type;
-    new_piece->piece_name=name_decieder(type,color);
-    // i had new_piece->own=NULL after allocating them with different memory so it was fucking up 
-    return new_piece;
+//     new_piece->color=color;
+//     new_piece->current_position[Y]=position_decieder(type,color);
+//     new_piece->current_position[X]=x_position;
+//     new_piece->piece_type=type;
+//     new_piece->piece_name=name_decieder(type,color);
+//     // i had new_piece->own=NULL after allocating them with different memory so it was fucking up 
+//     return new_piece;
     
 
-}
-void board_setter(struct chess_game* game){// its supposed to set up the board 
-    for(int i=0;i<LENGTH;i++){
-        for(int j=0;j<WIDTH;j++){
-            chess_board[i][j]='*';
-        }
-    }
-    struct node* temp=new_stack->top;
-    while(temp!=NULL){
-        piece* temp_piece=temp->data;
-        chess_piece_arr[(temp_piece->current_position[Y]*MAX_POSITIONS)+temp_piece->current_position[X]]=temp_piece;
+// }
+// void board_setter(struct chess_game* game){// its supposed to set up the board 
+//     for(int i=0;i<LENGTH;i++){
+//         for(int j=0;j<WIDTH;j++){
+//             chess_board[i][j]='*';
+//         }
+//     }
+//     struct node* temp=new_stack->top;
+//     while(temp!=NULL){
+//         piece* temp_piece=temp->data;
+//         chess_piece_arr[(temp_piece->current_position[Y]*MAX_POSITIONS)+temp_piece->current_position[X]]=temp_piece;
 
-        chess_board[temp_piece->current_position[Y]][temp_piece->current_position[X]]=temp_piece->piece_name;
-        temp=temp->next;
-    }
+//         chess_board[temp_piece->current_position[Y]][temp_piece->current_position[X]]=temp_piece->piece_name;
+//         temp=temp->next;
+//     }
 
 
-}
+// }
 
 // king* king_init(char color){
 //     if(color!='b' && color!='w'){
@@ -208,69 +213,74 @@ void board_setter(struct chess_game* game){// its supposed to set up the board
 //     }
 //     return new_king;
 // }
-struct chess_game* game_init(){
-    struct chess_game* newGame=(struct chess_game*)malloc(sizeof(struct chess_game));
-    newGame->b_pawn1=piece_init(BLACK,A,PAWN);
-    newGame->b_pawn2=piece_init(BLACK,B,PAWN);
-    newGame->b_pawn3=piece_init(BLACK,C,PAWN);
-    newGame->b_pawn4=piece_init(BLACK,D,PAWN);
-    newGame->b_pawn5=piece_init(BLACK,E,PAWN);
-    newGame->b_pawn6=piece_init(BLACK,F,PAWN);
-    newGame->b_pawn7=piece_init(BLACK,G,PAWN);
-    newGame->b_pawn8=piece_init(BLACK,H,PAWN);
 
-    newGame->b_rook_L=piece_init(BLACK,A,ROOK);
-    newGame->b_rook_R=piece_init(BLACK,H,ROOK);
-    newGame->b_bishop_L=piece_init(BLACK,C,BISHOP);
-    newGame->b_bishop_R=piece_init(BLACK,F,BISHOP);
-    newGame->b_knight_L=piece_init(BLACK,B,KNIGHT);
-    newGame->b_kngiht_R=piece_init(BLACK,G,KNIGHT);
-    newGame->b_king=piece_init(BLACK,E,KING);
-    newGame->b_queen=piece_init(BLACK,D,QUEEN);
+/*Game_init FUntion*/
 
-    newGame->w_pawn1=piece_init(WHITE,A,PAWN);
-    newGame->w_pawn2=piece_init(WHITE,B,PAWN);
-    newGame->w_pawn3=piece_init(WHITE,C,PAWN);
-    newGame->w_pawn4=piece_init(WHITE,D,PAWN);
-    newGame->w_pawn5=piece_init(WHITE,E,PAWN);
-    newGame->w_pawn6=piece_init(WHITE,F,PAWN);
-    newGame->w_pawn7=piece_init(WHITE,G,PAWN);
-    newGame->w_pawn8=piece_init(WHITE,H,PAWN);
+// struct chess_game* game_init(){
+//     struct chess_game* newGame=(struct chess_game*)malloc(sizeof(struct chess_game));
+//     newGame->b_pawn1=piece_init(BLACK,A,PAWN);
+//     newGame->b_pawn2=piece_init(BLACK,B,PAWN);
+//     newGame->b_pawn3=piece_init(BLACK,C,PAWN);
+//     newGame->b_pawn4=piece_init(BLACK,D,PAWN);
+//     newGame->b_pawn5=piece_init(BLACK,E,PAWN);
+//     newGame->b_pawn6=piece_init(BLACK,F,PAWN);
+//     newGame->b_pawn7=piece_init(BLACK,G,PAWN);
+//     newGame->b_pawn8=piece_init(BLACK,H,PAWN);
 
-    newGame->w_rook_L=piece_init(WHITE,A,ROOK);
-    newGame->w_rook_R=piece_init(WHITE,H,ROOK);
-    newGame->w_bishop_L=piece_init(WHITE,C,BISHOP);
-    newGame->w_bishop_R=piece_init(WHITE,F,BISHOP);
-    newGame->w_knight_L=piece_init(WHITE,B,KNIGHT);
-    newGame->w_kngiht_R=piece_init(WHITE,G,KNIGHT);
-    newGame->w_king=piece_init(WHITE,E,KING);
-    newGame->w_queen=piece_init(WHITE,D,QUEEN);
+//     newGame->b_rook_L=piece_init(BLACK,A,ROOK);
+//     newGame->b_rook_R=piece_init(BLACK,H,ROOK);
+//     newGame->b_bishop_L=piece_init(BLACK,C,BISHOP);
+//     newGame->b_bishop_R=piece_init(BLACK,F,BISHOP);
+//     newGame->b_knight_L=piece_init(BLACK,B,KNIGHT);
+//     newGame->b_kngiht_R=piece_init(BLACK,G,KNIGHT);
+//     newGame->b_king=piece_init(BLACK,E,KING);
+//     newGame->b_queen=piece_init(BLACK,D,QUEEN);
+
+//     newGame->w_pawn1=piece_init(WHITE,A,PAWN);
+//     newGame->w_pawn2=piece_init(WHITE,B,PAWN);
+//     newGame->w_pawn3=piece_init(WHITE,C,PAWN);
+//     newGame->w_pawn4=piece_init(WHITE,D,PAWN);
+//     newGame->w_pawn5=piece_init(WHITE,E,PAWN);
+//     newGame->w_pawn6=piece_init(WHITE,F,PAWN);
+//     newGame->w_pawn7=piece_init(WHITE,G,PAWN);
+//     newGame->w_pawn8=piece_init(WHITE,H,PAWN);
+
+//     newGame->w_rook_L=piece_init(WHITE,A,ROOK);
+//     newGame->w_rook_R=piece_init(WHITE,H,ROOK);
+//     newGame->w_bishop_L=piece_init(WHITE,C,BISHOP);
+//     newGame->w_bishop_R=piece_init(WHITE,F,BISHOP);
+//     newGame->w_knight_L=piece_init(WHITE,B,KNIGHT);
+//     newGame->w_kngiht_R=piece_init(WHITE,G,KNIGHT);
+//     newGame->w_king=piece_init(WHITE,E,KING);
+//     newGame->w_queen=piece_init(WHITE,D,QUEEN);
 
    
 
-    // newGame->board_state=(char(*)[8])malloc(8*sizeof(char));
-    chess_board=malloc(8*sizeof(char[8]));
-    newGame->run_state=RUN;
-    board_setter(newGame);
-    newGame->choice=0;
-    newGame->turn_tracker=white;
-   return newGame;
+//     // newGame->board_state=(char(*)[8])malloc(8*sizeof(char));
+//     chess_board=malloc(8*sizeof(char[8]));
+//     newGame->run_state=RUN;
+//     board_setter(newGame);
+//     newGame->choice=0;
+//     newGame->turn_tracker=white;
+//    return newGame;
      
 
-}
-void game_destroy(struct chess_game* game){
-    stack* new=new_stack;
-    struct node* ptr=new->top;
-    while(ptr!=NULL){
-        piece* temp_piece=ptr->data;
-        ptr=ptr->next;
-        free(temp_piece);
-    }
-    free(game);
-}
+// }
+
+// void game_destroy(struct chess_game* game){
+//     stack* new=new_stack;
+//     struct node* ptr=new->top;
+//     while(ptr!=NULL){
+//         piece* temp_piece=ptr->data;
+//         ptr=ptr->next;
+//         free(temp_piece);
+//     }
+//     free(game);
+// }
+
 piece* select_piece(struct chess_game* game){
     piece* selectedPiece=chess_piece_arr[(game->move_position_y*MAX_POSITIONS)+game->move_position_x];
-    chess_board[game->move_position_y][game->move_position_x]='*';
+    // chess_board[game->move_position_y][game->move_position_x]='*';
     return selectedPiece;
 
     
@@ -287,13 +297,18 @@ void piece_move(piece* given_piece,struct chess_game* game){
         printf("Wrong move\n");
         chess_board[game->move_position_y][game->move_position_x]=given_piece->piece_name;
         return;
-    }//game's breaking herer fix it asap!!!
+    }
+    chess_board[game->move_position_y][game->move_position_x]='*';//newly added line require attention >>>> solves the bug that was happening when user choose a opponent piece and gets repromt and the board renders with the chosen wrong piece not in the board suddenly
+    //game's breaking herer fix it asap!!!
 
     
     // chess_board[game->move_position_y][game->move_position_x]=temp_c;
     
     chess_piece_arr[(game->next_move_y*MAX_POSITIONS)+game->next_move_x]=given_piece;
     chess_piece_arr[(game->move_position_y*MAX_POSITIONS)+game->move_position_x]=NULL;
+
+    given_piece->current_position[Y]=game->next_move_y;//changes the current position paramenter in the piece object 
+    given_piece->current_position[X]=game->next_move_x;
     // printf("%p\n",given);
     // printf("%p\n",given->own);
     if(temp!=NULL){
@@ -365,7 +380,7 @@ void gameLoop(struct chess_game* game){
          selected_piece=select_piece(game);
         }while(!move_checker(selected_piece,game));
 
-        while(!move_input(game));
+        while(!move_input(game,selected_piece));
         piece_move(selected_piece,game);
 
 
@@ -378,11 +393,11 @@ void gameLoop(struct chess_game* game){
 
 }
 void remove_piece(piece* given_piece){
-    printf("1\n");
+    // printf("1\n");
     piece* temp=given_piece;
-    printf("%p",temp);
+    // printf("%p",temp);
     struct node* ptr=temp->own;
-    printf("%p",ptr->data);
+    // printf("%p",ptr->data);
     if(ptr->prev==NULL){
         ptr->next->prev=NULL;
         
