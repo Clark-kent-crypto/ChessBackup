@@ -12,6 +12,7 @@ typedef struct piece{
 
 
 }piece;
+extern piece** chess_piece_arr;//array containing piece* as a data
 struct chess_game{
     piece* b_pawn1;
     piece* b_pawn2;
