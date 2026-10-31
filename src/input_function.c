@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"input_function.h"
-#include"chess_piece.h"
+#include<chess_piece.h>
 #include<stdbool.h>
+#include<moves.h>
 
 // #define INPUT_SIZE 3
 // #define MAX_POSITIONS 8
@@ -61,7 +62,7 @@ void translate_position(char arr[2],int *pReturnArr){
   
 
 }
-bool move_input(struct chess_game* game){
+bool move_input(struct chess_game* game,piece* selected_piece){
     char input[INPUT_SIZE];
     printf("Enter the location where you would move :");
     scanf(" %s",&input);
@@ -73,6 +74,16 @@ bool move_input(struct chess_game* game){
     if(parr[X]==game->move_position_x && parr[Y]==game->move_position_y){
         return false;
     }
+    if(selected_piece->piece_type==BISHOP){
+    if(!bishop_move_check(selected_piece,parr)){
+        return false;
+    }
+}
+if(selected_piece->piece_type==PAWN){
+    if(!pawn_movement_check(selected_piece,game,parr)){
+        return false;
+    }
+}
     game->next_move_x=parr[X];
     game->next_move_y=parr[Y];
     
@@ -81,7 +92,11 @@ bool move_input(struct chess_game* game){
 
 }
 bool move_checker(piece* selected_piece,struct chess_game* game){
-    if(game->turn_tracker==white){
+    if(selected_piece==NULL){
+        printf("NO PIECE IN THE SELCETED POSITION\n");//new line added to handle the empty box check
+        return false;
+    }
+    if(game->turn_tracker%2==white){
         if(selected_piece->color!=WHITE){
             return false;
         }
@@ -90,13 +105,14 @@ bool move_checker(piece* selected_piece,struct chess_game* game){
             return false;
         }
     }
+    if(selected_piece->piece_type==PAWN){
+        if(!pawn_move_check(selected_piece,game)){//added some lines here 
+            return false;
+        }
+    }
     return true;
 
 }
 void change_turn(struct chess_game* game){
-    if(game->turn_tracker==black){
-        game->turn_tracker=white;
-    }else{
-        game->turn_tracker=black;
-    }
+    game->turn_tracker++;
 }

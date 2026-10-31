@@ -63,7 +63,7 @@ if(ptr==NULL){
     c_piece->own=ptr;
     // printf("%p\n",c_piece->own);//added these lines to debug better 
     // printf("%p\n\n",c_piece);
-    printf("2");
+    // printf("2");
     ptr->data=c_piece;// added this to put the pointer inside the piece variable
     ptr->next=p;
     ptr->prev=NULL;//
